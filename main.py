@@ -6,6 +6,13 @@ import requests
 import numpy as np
 from fastapi import FastAPI, UploadFile, File, HTTPException, Query
 from qdrant_client import QdrantClient
+
+# Initialize the Qdrant client with your credentials
+qdrant_client = QdrantClient(
+    url="https://5030f791-3e14-4605-a543-fb42d57e0ba3.eu-west-2-0.aws.cloud.qdrant.io",
+    api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.qa5Q9JFbj-Gs3N5BdGUFEv6yPeCoUXrYelZ1TrMnS7Y",
+)
+
 from qdrant_client.http.models import VectorParams, Distance, PointStruct
 from PIL import Image
 
