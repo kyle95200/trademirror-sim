@@ -93,3 +93,6 @@ async def query_chart(file: UploadFile = File(...), top_k: int = 5):
     # simplify the response for frontend
     results = [{"id": h.id, "score": h.score, "payload": h.payload} for h in hits]
     return {"matches": results}
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "TradeMirror backend is running"}
