@@ -37,10 +37,8 @@ try:
 except Exception:
     qclient.recreate_collection(
         collection_name=COLLECTION,
-        vectors_config=VectorParams(size=EMBED_DIM, distance=Distance.COSINE),
-    )
-
-HF_MODEL = "openai/clip-vit-base-patch32"  # example; pick a model that supports feature-extraction
+        vectors_config=VectorParams(size=EMBED_DIM, distance=Distance.COSINE),)
+HF_MODEL = "laion/CLIP-ViT-B-32-laion2B-s34B-b79K"  # example; pick a model that supports feature-extraction
 
 def hf_image_to_vector(image_bytes: bytes):
     """
