@@ -1,10 +1,7 @@
 fastapi
 uvicorn
-requests
-python-dotenv
 qdrant-client
-numpy
-pillow
-python-multipart
-torch
+Pillow
 transformers
+torch
+numpy
