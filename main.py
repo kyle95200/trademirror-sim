@@ -3,14 +3,43 @@ import os
 import io
 import uuid
 import numpy as np
-from fastapi import FastAPI, UploadFile, File, HTTPException, Query
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import VectorParams, Distance, PointStruct
 from PIL import Image
 from transformers import CLIPProcessor, CLIPModel
 import torch
 
-app = FastAPI(title="TradeMirror Similarity Engine (Local HF Model)")
+# main.py
+from fastapi import FastAPI, Request
+import requests
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"message": "Hello from Render + Hugging Face!"}
+
+@app.post("/analyze")
+async def analyze(request: Request):
+    body = await request.json()
+    inputs = body.get("inputs", "")
+
+    # Hugging Face model endpoint
+    API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-mnli"
+    headers = {"Authorization": f"Bearer YOUR_HF_TOKEN"}
+
+    response = requests.post(API_URL, headers=headers, json={"inputs": inputs})
+
+    return response.json()
+
+
+# Render needs this line to know which port to use
+# It must be included in all Render FastAPI apps
+if __name__ == "__main__":
+    import uvicorn
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
 
 # ====== ENV VARIABLES ======
 QDRANT_URL = os.getenv("QDRANT_URL")
