@@ -10,19 +10,31 @@ from transformers import CLIPProcessor, CLIPModel
 import torch
 
 # main.py
-from fastapi import FastAPI, Request
-import requests
+from fastapi import FastAPI, UploadFile, Form
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "Hello from Render + Hugging Face!"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can restrict this later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.post("/analyze")
-async def analyze(request: Request):
-    body = await request.json()
-    inputs = body.get("inputs", "")
+@app.get("/")
+def read_root():
+    return {"status": "Backend running successfully"}
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = None):
+    content = await file.read()
+    return {"filename": file.filename, "size": len(content)}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=10000)
 
     # Hugging Face model endpoint
     API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-mnli"
