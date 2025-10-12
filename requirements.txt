@@ -5,3 +5,5 @@ Pillow
 transformers
 torch
 numpy
+python-multipart
+requests
