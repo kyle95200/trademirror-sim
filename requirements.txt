@@ -1,9 +1,5 @@
 fastapi
 uvicorn
-qdrant-client
-Pillow
-transformers
-torch
+pillow
 numpy
-python-multipart
-requests
+opencv-python-headless
